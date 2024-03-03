@@ -33,23 +33,12 @@ public class ManagerStats extends Thread{
         Message m;
         ObjectInputStream ois = null;
         try {
-            do {
                 ois = new ObjectInputStream(costumer.getInputStream());
                 m = (Message) ois.readObject();
-                if (!m.getMessage().equals("*")) {
-                    m.setSender(id);
-                    if (m.getType() == Type.PUBLIC) {
-                        oc.sendMessage(m);
-                    }else{
-                        oc.sendPrivateMsg(m);
-                    }
-                }
-            } while (!m.getMessage().equals("*"));
-            System.out.println("Cierre controlado del cliente");
-            oc.removeCostumer(id);
+                System.out.println(m);
         }catch(EOFException eof){
             System.err.println("Cierre abrupto del cliente");
-            oc.removeCostumer(id);
+            oc.removeRecipient(id);
         }catch(StreamCorruptedException stream){
             stream.printStackTrace();
             System.err.println("Error al intentar leer del inputstream");

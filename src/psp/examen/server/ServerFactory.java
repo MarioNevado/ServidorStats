@@ -15,8 +15,10 @@ public class ServerFactory {
         ObjetoCompartido oc = new ObjetoCompartido();
         ServerEmisor emisor = new ServerEmisor(oc);
         ServerReceptor receptor = new ServerReceptor(oc);
+        ServerStats stats = new ServerStats(oc);
         emisor.start();
         receptor.start();
+        stats.start();
     }
     
     

@@ -23,7 +23,7 @@ public class ManagerReceptor extends Thread {
     } 
     @Override
     public void run(){
-        oc.addCostumer(id, costumer);
+        oc.addRecipient(id, costumer);
     }
 }
 

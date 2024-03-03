@@ -31,10 +31,10 @@ public class Emisor {
                 if (string.startsWith(".private")) {
                     message = new Message(string.split(" ", 3)[2], Type.PRIVATE);
                     try{
-                        message.setReceptor(Integer.parseInt(string.split(" ", 3)[1]));
+                        message.setRecipient(Integer.parseInt(string.split(" ", 3)[1]));
                     }catch(NumberFormatException nbe){
                         System.err.println("No es un número");
-                        message.setReceptor(0);
+                        message.setRecipient(0);
                     }
                 }else{
                     message = new Message(string, Type.PUBLIC);

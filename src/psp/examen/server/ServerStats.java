@@ -25,7 +25,7 @@ public class ServerStats extends Thread{
         Socket s;
         ManagerStats manager;
         int id = 0;
-        try(ServerSocket ss = new ServerSocket(Configuration.SEND_STATS)){
+        try(ServerSocket ss = new ServerSocket(Configuration.RECIEVE_STATS)){
             do {
                 id++;
                 s = ss.accept();

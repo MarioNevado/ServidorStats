@@ -13,8 +13,8 @@ import java.io.Serializable;
 public class Message implements Serializable{
     private String message;
     private Type type;
-    private int receptor;
-    private int sender;
+    private int recipient;
+    private int dispatcher;
 
     
 
@@ -23,12 +23,12 @@ public class Message implements Serializable{
         this.type = type;
     }
 
-    public int getSender() {
-        return sender;
+    public int getDispatcher() {
+        return dispatcher;
     }
 
-    public void setSender(int sender) {
-        this.sender = sender;
+    public void setDispatcher(int dispatcher) {
+        this.dispatcher = dispatcher;
     }
 
     public String getMessage() {
@@ -39,12 +39,12 @@ public class Message implements Serializable{
         this.message = message;
     }
     
-    public int getReceptor() {
-        return receptor;
+    public int getRecipient() {
+        return recipient;
     }
 
-    public void setReceptor(int receptor) {
-        this.receptor = receptor;
+    public void setRecipient(int recipient) {
+        this.recipient = recipient;
     }
 
     public Type getType() {
