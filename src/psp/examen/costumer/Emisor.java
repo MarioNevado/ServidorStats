@@ -8,9 +8,11 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
+import javax.crypto.SecretKey;
 import psp.examen.biz.Message;
 import psp.examen.biz.Type;
 import psp.examen.tools.Configuration;
+import psp.examen.tools.Utils;
 
 /**
  *
@@ -22,14 +24,16 @@ public class Emisor {
         Scanner sc = new Scanner(System.in);
         ObjectOutputStream oos = null;
         String string;
+        SecretKey key;
         Message message;
         try (Socket s = new Socket(Configuration.HOST, Configuration.SEND_PORT)) {
+            key = Utils.getKey(Configuration.SIMMETRIC_KEY_FILE);
             do {
                 System.out.print("Introducir mensaje: ");
                 string = sc.nextLine();
                 oos = new ObjectOutputStream(s.getOutputStream());
                 if (string.startsWith(".private")) {
-                    message = new Message(string.split(" ", 3)[2], Type.PRIVATE);
+                    message = new Message(Utils.cifrarClaveSimetrica(string.split(" ", 3)[2].getBytes(), key), Type.PRIVATE);
                     try{
                         message.setRecipient(Integer.parseInt(string.split(" ", 3)[1]));
                     }catch(NumberFormatException nbe){
@@ -37,7 +41,7 @@ public class Emisor {
                         message.setRecipient(0);
                     }
                 }else{
-                    message = new Message(string, Type.PUBLIC);
+                    message = new Message(Utils.cifrarClaveSimetrica(string.getBytes(), key), Type.PUBLIC);
                 }
                 oos.writeObject(message);
             } while (!string.equals("*"));

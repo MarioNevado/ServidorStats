@@ -11,14 +11,14 @@ import java.io.Serializable;
  * @author dev
  */
 public class Message implements Serializable{
-    private String message;
+    private byte[] message;
     private Type type;
     private int recipient;
     private int dispatcher;
 
     
 
-    public Message(String message, Type type) {
+    public Message(byte[] message, Type type) {
         this.message = message;
         this.type = type;
     }
@@ -31,11 +31,11 @@ public class Message implements Serializable{
         this.dispatcher = dispatcher;
     }
 
-    public String getMessage() {
+    public byte[] getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(byte[] message) {
         this.message = message;
     }
     

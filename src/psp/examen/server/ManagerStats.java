@@ -12,6 +12,7 @@ import java.net.Socket;
 import psp.examen.biz.Message;
 import psp.examen.biz.ObjetoCompartido;
 import psp.examen.biz.Type;
+import psp.examen.tools.Utils;
 
 /**
  *
@@ -30,12 +31,14 @@ public class ManagerStats extends Thread{
 
     @Override
     public void run() {
+        String content;
         Message m;
         ObjectInputStream ois = null;
         try {
                 ois = new ObjectInputStream(costumer.getInputStream());
                 m = (Message) ois.readObject();
-                System.out.println(m);
+                content = new String(Utils.descifrarClaveSimetrica(m.getMessage(), oc.getKey()));
+                System.out.println(m.getType() + ": " + content);
         }catch(EOFException eof){
             System.err.println("Cierre abrupto del cliente");
             oc.removeRecipient(id);

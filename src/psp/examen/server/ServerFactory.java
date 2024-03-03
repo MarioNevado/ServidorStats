@@ -5,6 +5,8 @@
 package psp.examen.server;
 
 import psp.examen.biz.ObjetoCompartido;
+import psp.examen.tools.Configuration;
+import psp.examen.tools.Utils;
 
 /**
  *
@@ -12,7 +14,7 @@ import psp.examen.biz.ObjetoCompartido;
  */
 public class ServerFactory {
     public static void main(String[] args) {
-        ObjetoCompartido oc = new ObjetoCompartido();
+        ObjetoCompartido oc = new ObjetoCompartido(Utils.getKey(Configuration.SIMMETRIC_KEY_FILE));
         ServerEmisor emisor = new ServerEmisor(oc);
         ServerReceptor receptor = new ServerReceptor(oc);
         ServerStats stats = new ServerStats(oc);

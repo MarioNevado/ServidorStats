@@ -8,8 +8,10 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import javax.crypto.SecretKey;
 import psp.examen.biz.Message;
 import psp.examen.tools.Configuration;
+import psp.examen.tools.Utils;
 
 /**
  *
@@ -19,11 +21,13 @@ public class Receptor {
     public static void main(String[] args) {
         ObjectInputStream ois = null;
         Message m;
+        SecretKey key;
         try(Socket s = new Socket(Configuration.HOST, Configuration.RECIEVE_PORT)){
+            key = Utils.getKey(Configuration.SIMMETRIC_KEY_FILE);
             do {
                 ois = new ObjectInputStream(s.getInputStream());
                 m = (Message) ois.readObject();
-                System.out.println(m);
+                System.out.println(m.getType() + ": " + new String(Utils.descifrarClaveSimetrica(m.getMessage(), key)));
             } while (true);
         }catch(EOFException eof){
             System.err.println("Servidor caído");

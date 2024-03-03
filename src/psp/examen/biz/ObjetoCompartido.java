@@ -11,7 +11,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.SecretKey;
 import psp.examen.tools.Configuration;
+import psp.examen.tools.Utils;
 
 /**
  *
@@ -24,6 +26,14 @@ public class ObjetoCompartido {
     Map<Integer, Socket> corruptedCostumers = new LinkedHashMap<>();
     Map<Integer, Integer> sentMessages = new LinkedHashMap<>();
     int messages = 0;
+    private SecretKey key;
+
+    public ObjetoCompartido(SecretKey key) {
+        this.key = key;
+    }
+    
+    
+    
 
     public synchronized void addRecipient(int id, Socket costumer) {
         this.recipients.put(id, costumer);
@@ -74,7 +84,7 @@ public class ObjetoCompartido {
         ObjectOutputStream oos = null;
         try (Socket socket = new Socket(Configuration.HOST, Configuration.RECIEVE_STATS)) {
             
-            content = "Receptores conectados: \n";
+            content = "\nReceptores conectados: \n";
             for (Integer integer : recipients.keySet()) {
                 content += integer + "\n";
             }
@@ -89,7 +99,7 @@ public class ObjetoCompartido {
                 content += key + ": " + val + " mensajes \n";
             }
             oos = new ObjectOutputStream(socket.getOutputStream());
-            oos.writeObject(new Message(content, Type.PUBLIC));
+            oos.writeObject(new Message(Utils.cifrarClaveSimetrica(content.getBytes(), key), Type.PUBLIC));
         } catch (Exception e) {
             e.printStackTrace();
         }finally{
@@ -127,6 +137,15 @@ public class ObjetoCompartido {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
+
+    public SecretKey getKey() {
+        return key;
+    }
+
+    public void setKey(SecretKey key) {
+        this.key = key;
+    }
+    
+    
 }
